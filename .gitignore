@@ -1,0 +1,14 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Video files
+*.mkv
+*.mp4
+
+# Secrets
+.env
+
+# Generated files
+output/
