@@ -22,6 +22,7 @@ print(shifts[0])
 
 barkov_shifts = []
 
+
 for shift in shifts:
     if shift["lastName"] == "Barkov":
         print("Erä ", shift["period"], " aloitusaika ", shift["startTime"], " lopetusaika ", shift["endTime"])
@@ -36,22 +37,31 @@ def time_to_seconds(min_secs):
 
 print(time_to_seconds("3:30"))
 
-def game_time_seconds(period, time):
-    earlier_periods = (int(period)-1) * 20 * 60 
-    return earlier_periods + time_to_seconds(time)
-
-print(game_time_seconds("2", "3:30"))
-
 barkov_shifts_seconds = []
 
 for shift in barkov_shifts:
-    period = shift["period"]
-    start_time = game_time_seconds(period, shift["startTime"])
-    end_time = game_time_seconds(period, shift["endTime"])
-    barkov_shifts_seconds.append( {
-        "period": period,
-        "start_seconds": start_time,
-        "end_seconds": end_time
+    if shift["period"] == 3:
+        period = shift["period"]
+        start_time = time_to_seconds(shift["startTime"])
+        end_time = time_to_seconds(shift["endTime"])
+        barkov_shifts_seconds.append( {
+            "period": period,
+            "start_seconds": start_time,
+            "end_seconds": end_time
     })
 
 print (barkov_shifts_seconds)
+
+sync_points = [
+    (0, 0),
+    (600, 773)
+]
+
+def interpolate_video_time(game_seconds, point1, point2):
+    game_time, video_time = point1
+    game_time2, video_time2 = point2
+    return video_time + ((game_seconds - game_time) / (game_time2 - game_time)) * (video_time2- video_time)
+
+print(interpolate_video_time(300, sync_points[0], sync_points[1]))
+
+
