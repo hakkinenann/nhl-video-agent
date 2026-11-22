@@ -36,3 +36,22 @@ def time_to_seconds(min_secs):
 
 print(time_to_seconds("3:30"))
 
+def game_time_seconds(period, time):
+    earlier_periods = (int(period)-1) * 20 * 60 
+    return earlier_periods + time_to_seconds(time)
+
+print(game_time_seconds("2", "3:30"))
+
+barkov_shifts_seconds = []
+
+for shift in barkov_shifts:
+    period = shift["period"]
+    start_time = game_time_seconds(period, shift["startTime"])
+    end_time = game_time_seconds(period, shift["endTime"])
+    barkov_shifts_seconds.append( {
+        "period": period,
+        "start_seconds": start_time,
+        "end_seconds": end_time
+    })
+
+print (barkov_shifts_seconds)
