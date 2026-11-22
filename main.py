@@ -1,4 +1,5 @@
 import requests
+import subprocess
 
 GAME_ID = 2024030416
 
@@ -53,7 +54,7 @@ for shift in barkov_shifts:
 print (barkov_shifts_seconds)
 
 sync_points = [
-    (0, 0),
+    (0, 1),
     (600, 773)
 ]
 
@@ -63,5 +64,38 @@ def interpolate_video_time(game_seconds, point1, point2):
     return video_time + ((game_seconds - game_time) / (game_time2 - game_time)) * (video_time2- video_time)
 
 print(interpolate_video_time(300, sync_points[0], sync_points[1]))
+
+video_start = interpolate_video_time(
+    barkov_shifts_seconds[0]["start_seconds"],
+    sync_points[0],
+    sync_points[1]
+)
+
+video_end = interpolate_video_time(
+    barkov_shifts_seconds[0]["end_seconds"],
+    sync_points[0],
+    sync_points[1]
+)
+
+duration = (
+    barkov_shifts_seconds[0]["end_seconds"]
+    - barkov_shifts_seconds[0]["start_seconds"]
+)
+
+print("Vaihdon alku videolla:", video_start)
+print("Vaihdon loppu videolla:", video_end)
+print("Leikkeen kesto:", duration)
+
+command = [
+    "ffmpeg",
+    "-y",
+    "-ss", str(video_start),
+    "-i", "kolmas_era.mkv",
+    "-t", str(duration),
+    "-c", "copy",
+    "output/test_clip.mkv"
+]
+
+subprocess.run(command, check=True)
 
 

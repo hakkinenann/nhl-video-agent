@@ -1,63 +1,64 @@
-NHL Video Agent
+NHL Video Agent 🏒
 
-A Python-based project exploring how NHL player shift data can be used to automate the creation of player-specific video clips from full game recordings.
+A Python-based project for automatically generating NHL player shift video clips using official NHL shift data and recorded game footage.
 
-Project Overview
+The goal is to build a tool that can identify when a selected player is on the ice, synchronize those shifts with a game recording, and automatically extract the corresponding video clips.
 
-The goal is to build a tool that identifies when a selected NHL player is on the ice and uses that information to extract the corresponding segments from a game recording.
-
-The project also serves as a practical learning environment for Python development, API integration, video processing, and AI-assisted software engineering.
-
-Current Features
-
-Retrieve player shift data from the NHL Stats API.
-
-Parse JSON responses and filter shifts by player.
-
-Extract shift information, including period, start time, and end time.
-
-Convert time values into seconds for further processing.
-
-Planned Features
-
-Convert player shifts into game-wide timestamps.
-
-Synchronize official game timestamps with local video recordings.
-
-Automatically extract player-specific clips using FFmpeg.
-
-Explore AI agents and computer vision to improve video processing and automation.
-
-Technologies
-
-Python 3.12
-
-NHL Stats API
-
-Requests
-
-Git and GitHub
-
-Planned tools include FFmpeg, OpenCV, and AI-assisted development tools.
 
 Project Status
 
-Work in progress
+🚧 Work in progress — early prototype
 
-The project currently focuses on retrieving and processing NHL shift data. Video synchronization and automated clip extraction are planned for future development.
+The project currently supports:
 
-Example Use Case
+Retrieving player shift data from the NHL Stats API.
 
-Given an NHL game and a selected player, such as Aleksander Barkov:
+Filtering shifts by player and period.
 
-Retrieve the official shift data for the game.
+Converting shift timestamps into seconds.
 
-Identify the player's shifts.
+Mapping game time to video timestamps using manually defined synchronization points and linear interpolation.
 
-Convert shift times into a format suitable for video processing.
+Extracting video clips programmatically using Python and FFmpeg.
 
-Match the shifts to the game recording.
 
-Generate video clips containing the player's ice time.
+The first successful prototype has been tested using Aleksander Barkov's shifts from Game 6 of the 2025 Stanley Cup Final.
 
-Steps 4–5 are not yet implemented.
+Current testing focuses on the third period of the game.
+
+
+Technologies
+
+Python — Data processing and automation
+
+Requests — NHL API integration
+
+FFmpeg — Video processing and clip extraction
+
+Subprocess — Executing FFmpeg commands from Python
+
+Git & GitHub — Version control
+
+
+How It Works
+
+1. Fetch shift data from the NHL Stats API.
+
+2. Filter shifts for the selected player and period.
+
+3. Convert shift start and end times into seconds.
+
+4. Estimate video timestamps using manually identified synchronization points.
+
+5. Calculate clip durations from the shift data.
+
+6. Execute FFmpeg commands to extract video clips.
+
+
+Video Synchronization
+
+One of the main challenges is that NHL game time and video recording time do not progress at the same rate.
+
+Game stoppages, commercial breaks, and intermissions introduce differences between the two timelines.
+
+The current prototype uses linear interpolation between manually identified synchronization points to estimate where a shift occurs in the recording.
