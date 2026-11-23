@@ -86,16 +86,35 @@ print("Vaihdon alku videolla:", video_start)
 print("Vaihdon loppu videolla:", video_end)
 print("Leikkeen kesto:", duration)
 
-command = [
+for index, shift in enumerate(barkov_shifts_seconds, start=1):
+    if shift["start_seconds"] < 0 or shift["end_seconds"] > 600 or shift["end_seconds"] <= shift["start_seconds"]:
+        continue
+    video_start = interpolate_video_time(
+    shift["start_seconds"],
+    sync_points[0],
+    sync_points[1]
+    )
+    video_end = interpolate_video_time(
+    shift["end_seconds"],
+    sync_points[0],
+    sync_points[1]
+    )
+    duration = video_end - video_start
+
+    command = [
     "ffmpeg",
     "-y",
     "-ss", str(video_start),
     "-i", "kolmas_era.mkv",
     "-t", str(duration),
     "-c", "copy",
-    "output/test_clip.mkv"
-]
+    f"output/barkov_shift_{index}.mkv"
+    ]
+    print(f"Vaihto {index}: {video_start:.1f}s - {video_end:.1f}s")
+    print(f"Kesto: {duration:.1f}s")
 
-subprocess.run(command, check=True)
+    subprocess.run(command, check=True)
+
+
 
 
